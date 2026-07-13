@@ -40,12 +40,24 @@ end)
 
 local Player = Window:NewTab("Player")
 
-local PlayerStats = Player:NewSection("PlayerStats")
-
-PlayerStats:NewSlider("WalkSpeed", "Player Speed", 500, 0, function(s) -- 500 (Макс. значение) | 0 (Мин. значение)
-   game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
+local Modifiers = Player:NewSection("Modifiers")
+ 
+Modifiers:NewSlider("WalkSpeed", "Player Speed", 1000, 0, function(s)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
 end)
 
-PlayerStats:NewSlider("JumpPower", "Player jumppower", 300, 0, function(s) -- 500 (Макс. значение) | 0 (Мин. значение)
+Modifiers:NewSlider("JumpPower", "Player jumppower", 500, 0, function(s)
     game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
+end)
+
+local Utilities = Window:NewTab("Utility")
+
+local Utility = Utilities:NewSection("Utility")
+
+Utility:NewButton("Fly Gui", "Fly", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/VanyaHub/refs/heads/main/Fly%20Gui%20VanyaHub.lua"))()
+end)
+
+Utility:NewButton("Fling Gui", "Fling Players", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/VanyaHub/refs/heads/main/FlingGui%20VanyaHub.lua"))()
 end)
