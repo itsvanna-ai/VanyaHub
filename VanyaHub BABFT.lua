@@ -1,63 +1,111 @@
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Robojini/Tuturial_UI_Library/main/UI_Template_1"))()
+local Fluent = loadstring(game:HttpGet("https://github.com/StyearX/Fluent-Modded/releases/download/Fluent/FluentPro"))()
 
-local Window = Library.CreateLib("VanyaHub", "RJTheme1")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local LocalPlayer = Players.LocalPlayer
 
-local Main = Window:NewTab("Main")
+local Window = Fluent:CreateWindow({
+    Title = "Vanya Hub",
+    SubTitle = "by its_vanna",
+    Version = "release 1.0.0",
+    TabWidth = 130,
+    Size = UDim2.fromOffset(480, 460),
+    Acrylic = true,
+    Theme = "AMOLED",
+    MinimizeKey = Enum.KeyCode.LeftControl,
+    Search = true,
+    Icons = "solar/planet-bold",
+    UserInfoTop = true,
+    UserInfoTitle = "Welcome",
+    UserInfoSubtitle = LocalPlayer.DisplayName,
+    UserInfoColor = Color3.fromRGB(180, 10, 20),
+})
 
-local World = Main:NewSection("World")
+Tabs = {
+    Main = Window:AddTab({ Title = "Main", Icon = "solar/widget-4-bold" }),
+    Player = Window:AddTab({ Title = "Player", Icon = "solar/user-bold" }),
+    Utility = Window:AddTab({ Title = "Utility", Icon = "solar/slash-square-bold" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "solar/settings-bold" }),
+}
 
-World:NewButton("Disable Water Damage", "0 Damage From Water", function()
-    for i,v in pairs(game:GetDescendants()) do
-       if v.Name == "Water" then
-          v:Destroy()
-       end
-    end
-end)
+local mainbutton = Tabs.Main:AddSection("Buttons", "solar/mouse-minimalistic-bold")
 
-World:NewDropdown("Disable Isolation", "Disable Isolation", {"White Team", "Red Team", "Black Team", "Blue Team", "Green Team", "Purple Team", "Yellow Team"}, function(click)
-    if click == "White Team" then
-       workspace.WhiteZone.Lock.Part:Destroy()
-    end
-    if click == "Red Team" then
-       workspace["Really redZone"].Lock.Part:Destroy()
-    end
-    if click == "Black Team" then
-       workspace.BlackZone.Lock.Part:Destroy()
-    end
-    if click == "Blue Team" then
-       workspace["Really blueZone"].Lock.Part:Destroy()
-    end
-    if click == "Green Team" then
-       workspace.CamoZone.Lock.Part:Destroy()
-    end
-    if click == "Purple Team" then
-       workspace.MagentaZone.Lock.Part:Destroy()
-    end
-    if click == "Yellow Team" then
-       workspace["New YellerZone"].Lock.Part:Destroy()
-    end
-end)
+local maindrop = Tabs.Main:AddSection("Dropdowns", "solar/list-down-minimalistic-bold")
 
-local Player = Window:NewTab("Player")
+maindrop:AddDropdown("Disable Isolation", {
+    Title = "Disable Isolation",
+    Icon = "solar/list-bold",
+    Values = {"White Team", "Red Team", "Black Team", "Blue Team", "Green Team", "Purple Team", "Yellow Team"},
+    Default = nil,
+    Callback = function(v)
+        if v == "White Team" then
+        workspace.WhiteZone.Lock.Part:Destroy()
+        elseif v == "Red Team" then
+        workspace["Really redZone"].Lock.Part:Destroy()
+        elseif v == "Black Team" then
+            workspace.BlackZone.Lock.Part:Destroy()
+        elseif v == "Blue Team" then
+            workspace["Really blueZone"].Lock.Part:Destroy()
+        elseif v == "Green Team" then
+            workspace.CamoZone.Lock.Part:Destroy()
+        elseif v == "Purple Team" then
+            workspace.MagentaZone.Lock.Part:Destroy()
+        elseif v == "Yellow Team" then
+            workspace["New YellerZone"].Lock.Part:Destroy()
+        end
+    end,
+})
 
-local Modifiers = Player:NewSection("Modifiers")
- 
-Modifiers:NewSlider("WalkSpeed", "Player Speed", 1000, 0, function(s)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = s
-end)
+mainbutton:AddButton({
+    Title = "Disable Water Damage",
+    Icon = "solar/shield-minimalistic-bold",
+    Callback = function()
+        for i,v in pairs(game:GetDescendants()) do
+            if v.Name == "Water" then
+                v:Destroy()
+            end
+        end
+    end,
+})
 
-Modifiers:NewSlider("JumpPower", "Player jumppower", 500, 0, function(s)
-    game.Players.LocalPlayer.Character.Humanoid.JumpPower = s
-end)
+local plrSlider = Tabs.Player:AddSection("Sliders", "solar/slider-horizontal-bold")
 
-local Utilities = Window:NewTab("Utility")
+plrSlider:AddSlider("WalkSpeed", {
+    Title = "Walk Speed",
+    Icon = "solar/running-bold",
+    Min = 1, Max = 1000, Default = 16, Rounding = 0,
+    Callback = function(v)
+        local chr = LocalPlayer.Character
+        if chr and chr:FindFirstChild("Humanoid") then chr.Humanoid.WalkSpeed = v end
+    end,
+})
 
-local Utility = Utilities:NewSection("Utility")
+plrSlider:AddSlider("JumpPower", {
+    Title = "Jump Power",
+    Icon = "solar/arrow-up-bold",
+    Min = 1, Max = 500, Default = 50, Rounding = 0,
+    Callback = function(v)
+        local chr = LocalPlayer.Character
+        if chr and chr:FindFirstChild("Humanoid") then chr.Humanoid.JumpPower = v end
+    end,
+})
 
-Utility:NewButton("Fly Gui", "Fly", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/VanyaHub/refs/heads/main/Fly%20Gui%20VanyaHub.lua"))()
-end)
+local butut = Tabs.Utility:AddSection("Buttons", "solar/mouse-minimalistic-bold")
 
-Utility:NewButton("Fling Gui", "Fling Players", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/VanyaHub/refs/heads/main/FlingGui%20VanyaHub.lua"))()
-end)
+butut:AddButton({
+    Title = "Fly Gui",
+    Icon = "solar/ufo-3-bold",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/VanyaHub/refs/heads/main/Fly%20Gui%20VanyaHub.lua"))()
+    end,
+})
+
+butut:AddButton({
+    Title = "Fling Gui",
+    Icon = "solar/black-hole-3-bold",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/VanyaHub/refs/heads/main/FlingGui%20VanyaHub.lua"))()
+    end,
+})
