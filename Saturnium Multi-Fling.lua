@@ -4,7 +4,7 @@ local RunService = game:GetService("RunService")
 local Player = Players.LocalPlayer
 -- GUI Setup
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "KilasikFlingGUI"
+ScreenGui.Name = "SaturniumMultiFling"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = game:GetService("CoreGui")
 -- Main Frame
@@ -26,7 +26,7 @@ TitleBar.Parent = MainFrame
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, -30, 1, 0)
 Title.BackgroundTransparency = 1
-Title.Text = "VANYAHUB MULTI-FLING"
+Title.Text = "Saturnium MULTI-FLING"
 Title.TextColor3 = Color3.fromRGB(255, 80, 80)
 Title.Font = Enum.Font.SourceSansBold
 Title.TextSize = 18
