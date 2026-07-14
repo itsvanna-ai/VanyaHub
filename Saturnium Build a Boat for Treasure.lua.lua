@@ -7,7 +7,7 @@ local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
 
 local Window = Fluent:CreateWindow({
-    Title = "Vanya Hub",
+    Title = "Saturnium",
     SubTitle = "by its_vanna",
     Version = "release 1.0.0",
     TabWidth = 130,
