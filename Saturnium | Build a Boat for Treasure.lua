@@ -106,6 +106,6 @@ butut:AddButton({
     Title = "Fling Gui",
     Icon = "solar/black-hole-3-bold",
     Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/VanyaHub/refs/heads/main/FlingGui%20VanyaHub.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/Saturnium/refs/heads/main/Saturnium%20Multi-Fling.lua"))()
     end,
 })
