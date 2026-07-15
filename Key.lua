@@ -44,7 +44,7 @@ local Config = {
 
     -- [7] Hub Information & UI Text
     HubName         = "Saturnium", -- The main title shown at the top of the GUI
-    HubDescription  = "Hub" -- The text shown below the title
+    HubDescription  = "Key System" -- The text shown below the title
 }
 
 -------------------------------------------------------------------------------
