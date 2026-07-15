@@ -102,17 +102,6 @@ maindrop:AddDropdown("Disable Isolation", {
     end,
 })
 
-maindrop:AddDropdown("Delete Player's Build", {
-    Title = "Delete Player's Build",
-    Discription = "Anti-Lag",
-    Icon = "solar/list-bold",
-    Values = {},
-    Default = nil,
-    Callback = function(v)
-
-    end,
-})
-
 mainbutton:AddButton({
     Title = "Disable Water Damage",
     Icon = "solar/shield-minimalistic-bold",
