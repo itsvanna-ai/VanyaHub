@@ -49,6 +49,13 @@ local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character
+local Camera = workspace.CurrentCamera
+local Root = Character.HumanoidRootPart
+local Flying = false
+getgenv().Speed = 150
+local Keys = {}
+getgenv().Key = Enum.KeyCode.G
 
 local Window = Fluent:CreateWindow({
     Title = "Saturnium",
@@ -77,6 +84,8 @@ Tabs = {
 local mainbutton = Tabs.Main:AddSection("Buttons", "solar/mouse-minimalistic-bold")
 
 local maindrop = Tabs.Main:AddSection("Dropdowns", "solar/list-down-minimalistic-bold")
+
+local maininp = Tabs.Main:AddSection("Inputs", "solar/text-field-focus-bold")
 
 maindrop:AddDropdown("Disable Isolation", {
     Title = "Disable Isolation",
@@ -114,6 +123,19 @@ mainbutton:AddButton({
     end,
 })
 
+maininp:AddInput("Delete Player's Blocks", {
+    Title = "Delete Player's Blocks",
+    Icon = "solar/user-bold",
+    Placeholder = "Enter a name",
+    Default = "",
+    Description = "(Anti-Lag)",
+    Callback = function(v)
+        local target = workspace.Blocks:WaitForChild(v)
+
+        target:Destroy()
+    end,
+})
+
 local plrSlider = Tabs.Player:AddSection("Sliders", "solar/slider-horizontal-bold")
 
 plrSlider:AddSlider("WalkSpeed", {
@@ -138,13 +160,19 @@ plrSlider:AddSlider("JumpPower", {
 
 local butut = Tabs.Utility:AddSection("Buttons", "solar/mouse-minimalistic-bold")
 
-butut:AddButton({
-    Title = "Fly Gui",
-    Icon = "solar/ufo-3-bold",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/Saturnium/refs/heads/main/Fly%20Gui%20Saturnium.lua"))()
+local fly = Tabs.Utility:AddSection("Fly (G To Toggle)", "solar/ufo-bold")
+
+fly:AddInput("Fly Speed", {
+    Title = "Fly Speed",
+    Icon = "solar/user-bold",
+    Placeholder = "Enter a Speed",
+    Default = "150",
+    Callback = function(v)
+        getgenv().Speed = v
     end,
 })
+
+
 
 butut:AddButton({
     Title = "Fling Gui",
@@ -153,3 +181,50 @@ butut:AddButton({
         loadstring(game:HttpGet("https://raw.githubusercontent.com/itsvanna-ai/Saturnium/refs/heads/main/Saturnium%20Multi-Fling.lua"))()
     end,
 })
+
+local setdd = Tabs.Settings:AddSection("DropDowns", "solar/list-bold")
+
+setdd:AddDropdown("Theme", {
+    Title = "Theme",
+    Icon = "solar/list-bold",
+    Values = {"AMOLED", "Ash Gray", "Blood Red", "Cyanic", "Amber Glow", "Deep Violet", "Neon Cyber", "Neon Purple", "Royal Blue", "Deep Ocean", "RGB", "Orange", "Charcoal", "Pearl White", "Midnight Blue", "Galaxy Purple", "Cosmic Violet", "Cotton Candy"},
+    Default = nil,
+    Callback = function(v)
+        Fluent:SetTheme(v)
+    end,
+})
+
+UserInputService.InputBegan:Connect(function(input, gpe)
+    if gpe then return end
+    if input.KeyCode == getgenv().Key then
+        Flying = not Flying
+        Root.Anchored = Flying
+    else
+        Keys[input.KeyCode] = true
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    Keys[input.KeyCode] = false
+end)
+
+while true do
+    local delta = RunService.RenderStepped:wait()
+    if Flying then
+        local drc = Vector3.zero
+
+        if Keys[Enum.KeyCode.W] then
+            drc += Camera.CFrame.LookVector
+        end
+        if Keys[Enum.KeyCode.S] then
+            drc -= Camera.CFrame.LookVector
+        end
+        if Keys[Enum.KeyCode.D] then
+            drc += Camera.CFrame.RightVector
+        end
+        if Keys[Enum.KeyCode.A] then
+            drc -= Camera.CFrame.RightVector
+        end
+        Root.CFrame += drc * delta * getgenv().Speed
+    end
+end
